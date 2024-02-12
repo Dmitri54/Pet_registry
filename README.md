@@ -20,6 +20,7 @@
 3. Подключить дополнительный репозиторий MySQL. Установить любой пакет из этого репозитория.
 
 ![Task 3.1](https://github.com/Dmitri54/Pet_registry/blob/main/Screen_shots/Pet_registry03.1.jpg)
+
 ![Task 3.2](https://github.com/Dmitri54/Pet_registry/blob/main/Screen_shots/Pet_registry03.2.jpg)
 
 4. Установить и удалить deb-пакет с помощью dpkg.
