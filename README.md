@@ -14,6 +14,9 @@
 ![Task 1](https://github.com/Dmitri54/Pet_registry/blob/main/Screen_shots/Pet_registry01.jpg)
 
 2. Создать директорию, переместить файл туда.
+
+![Task 2](https://github.com/Dmitri54/Pet_registry/blob/main/Screen_shots/Pet_registry02.jpg)
+
 3. Подключить дополнительный репозиторий MySQL. Установить любой пакет из этого репозитория.
 4. Установить и удалить deb-пакет с помощью dpkg.
 5. Выложить историю команд в терминале ubuntu
