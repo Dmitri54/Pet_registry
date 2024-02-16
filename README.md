@@ -20,14 +20,13 @@
 3. Подключить дополнительный репозиторий MySQL. Установить любой пакет из этого репозитория.
 
 ![Task 3.1](https://github.com/Dmitri54/Pet_registry/blob/main/Screen_shots/Pet_registry03.1.jpg)
-
 ![Task 3.2](https://github.com/Dmitri54/Pet_registry/blob/main/Screen_shots/Pet_registry03.2.jpg)
 
 4. Установить и удалить deb-пакет с помощью dpkg.
 
 ![Task 4](https://github.com/Dmitri54/Pet_registry/blob/main/Screen_shots/Pet_registry04.jpg)
 
-5. Выложить историю команд в терминале ubuntu.
+5. Выложить [историю команд](https://github.com/Dmitri54/Pet_registry/blob/main/HistoryCommandsUbuntuTerminal.md) в терминале ubuntu.
 6. Нарисовать диаграмму, в которой есть класс родительский класс, домашние животные и вьючные животные, в составы которых в случае домашних животных войдут классы: собаки, кошки, хомяки, а в класс вьючные животные войдут: Лошади, верблюды и ослы.
 7. В подключенном MySQL репозитории создать базу данных “Друзья человека”.
 8. Создать таблицы с иерархией из диаграммы в БД.
