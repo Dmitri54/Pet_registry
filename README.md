@@ -32,9 +32,174 @@
 ![Task 6](https://github.com/Dmitri54/Pet_registry/blob/main/Screen_shots/Pet_registry06.jpg)
 
 7. В подключенном MySQL репозитории создать базу данных “Друзья человека”.
+
+CREATE DATABASE Human_friends;
+
 8. Создать таблицы с иерархией из диаграммы в БД.
+
+CREATE SCHEMA `Human_friends` ;
+USE Human_friends;
+
+CREATE TABLE animal_classes
+(	
+	Id INT AUTO_INCREMENT PRIMARY KEY,
+    Class_name VARCHAR(20)
+);
+
+INSERT INTO animal_classes (Class_name)
+VALUES ('вьючные'),
+('домашние');
+
+CREATE TABLE home_animals
+(
+	Id INT AUTO_INCREMENT PRIMARY KEY,
+    Genus_name VARCHAR(20),
+    Class_id INT,
+    FOREIGN KEY (Class_id) REFERENCES animal_classes (Id) ON DELETE CASCADE ON UPDATE CASCADE 
+);
+
+INSERT INTO home_animals (Genus_name, Class_id)
+VALUES ('Собаки', 2),
+('Кошки', 2),
+('Хомяки', 2);
+
+CREATE TABLE pack_animals
+(
+	Id INT AUTO_INCREMENT PRIMARY KEY,
+    Genus_name VARCHAR(20),
+    Class_id INT,
+    FOREIGN KEY (Class_id) REFERENCES animal_classes (Id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO pack_animals (Genus_name, Class_id)
+VALUES ('Лошади', 1),
+('Верблюды', 1),
+('Ослы', 1);
+
 9. Заполнить низкоуровневые таблицы именами(животных), командами которые они выполняют и датами рождения.
+
+CREATE TABLE cats 
+(
+	Id INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(20),
+    Birthday DATE,
+    Commands VARCHAR(50),
+    Genus_id INT,
+    FOREIGN KEY (Genus_id) REFERENCES home_animals (Id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO cats (Name, Birthday, Commands, Genus_id)
+VALUES ('Мурка', '2017-05-11', 'кс-кс-кс', 1),
+('Кузя', '2018-01-15', 'куз-куз', 1),
+('Лапа', '2019-03-01', '', 1);
+
+CREATE TABLE dogs
+(
+	Id INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(20),
+    Birthday DATE,
+    Commands VARCHAR(50),
+    Genus_id INT,
+    FOREIGN KEY (Genus_id) REFERENCES home_animals (Id) ON DELETE CASCADE ON UPDATE CASCADE
+); 
+
+INSERT INTO dogs (Name, Birthday, Commands, Genus_id)
+VALUES ('Шарик', '2020-08-01', 'ко мне, сидеть, лежать', 2),
+('Даша', '2021-01-20', 'ко мне, сидеть, лежать, лапу, голос', 2),
+('Дуся', '2016-04-29', 'место, фу!', 2),
+('Нора', '2010-02-01', 'лапу, голос, место', 2);
+
+CREATE TABLE hamsters 
+(
+	Id INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(20),
+    Birthday DATE,
+    Commands VARCHAR(50),
+    Genus_id INT,
+    FOREIGN KEY (Genus_id) REFERENCES home_animals (Id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO hamsters (Name, Birthday, Commands, Genus_id)
+VALUES ('Хомяк', '2019-01-01', '', 3),
+('Серега', '2020-12-04', 'Чужой', 3),
+('Пух', '2021-11-01', '', 3),
+('Луна', '2022-06-09', '', 3);
+
+CREATE TABLE horses 
+(
+	Id INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(20),
+    Birthday DATE,
+    Commands VARCHAR(50),
+    Genus_id INT,
+    FOREIGN KEY (Genus_id) REFERENCES pack_animals (Id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO horses (Name, Birthday, Commands, Genus_id)
+VALUES ('Ангел', '2019-10-01', 'вперёд, хоп, шагом', 1),
+('Молния', '2018-01-20', 'рысь, хоп, шагом, тише, стой', 1),
+('Буран', '2020-06-04', 'шагом, стой', 1),
+('Гром', '2022-05-08', 'вперёд, стой, шагом', 1);
+
+CREATE TABLE donkeys 
+(
+	Id INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(20),
+    Birthday DATE,
+    Commands VARCHAR(50),
+    Genus_id INT,
+    FOREIGN KEY (Genus_id) REFERENCES pack_animals (Id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO donkeys (Name, Birthday, Commands, Genus_id)
+VALUES ('Гранат', '2020-01-01', '', 1),
+('Бомбай', '2015-01-01', '', 1),
+('Жак', '2018-08-21', '', 1),
+('Брюс', '2021-10-07', 'ИА-ИА', 1);
+
+CREATE TABLE camels 
+(
+	Id INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(20),
+    Birthday DATE,
+    Commands VARCHAR(50),
+    Genus_id INT,
+    FOREIGN KEY (Genus_id) REFERENCES pack_animals (Id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO camels (Name, Birthday, Commands, Genus_id)
+VALUES ('Жетем', '2020-01-11', 'КХХ', 3),
+('Лила', '2015-07-03', 'ГИТ!, КАШ!', 3),
+('Хлоя', '2018-12-02', 'ДУРР!, ЦОК-ЦОК, ХАП-ХАП-ХАП', 3),
+('Омлет', '2021-12-08', 'ДУРР!, ГИТ!, КАШ!', 3);
+
 10. Удалив из таблицы верблюдов, т.к. верблюдов решили перевезти в другой питомник на зимовку.Объединить таблицы лошади, и ослы в одну таблицу.
+
+SELECT c.Name, c.Birthday, c.Commands, ha.Genus_name, ya.Age_in_month
+FROM cats c
+LEFT JOIN yang_animals ya ON ya.Name = c.Name
+LEFT JOIN home_animals ha ON ha.Id = c.Genus_id
+UNION
+SELECT d.Name, d.Birthday, d.Commands, ha.Genus_name, ya.Age_in_month
+FROM dogs d
+LEFT JOIN yang_animals ya ON ya.Name = d.Name
+LEFT JOIN home_animals ha ON ha.Id = d.Genus_id
+UNION
+SELECT hm.Name, hm.Birthday, hm.Commands, ha.Genus_name, ya.Age_in_month
+FROM hamsters hm
+LEFT JOIN yang_animals ya ON ya.Name = hm.Name
+LEFT JOIN home_animals ha ON ha.Id = hm.Genus_id
+UNION
+SELECT h.Name, h.Birthday, h.Commands, pa.Genus_name, ya.Age_in_month
+FROM horses h
+LEFT JOIN yang_animals ya ON ya.Name = h.Name
+LEFT JOIN pack_animals pa ON pa.Id = h.Genus_id
+UNION
+SELECT d.Name, d.Birthday, d.Commands, pa.Genus_name, ya.Age_in_month
+FROM donkeys d
+LEFT JOIN yang_animals ya ON ya.Name = d.Name
+LEFT JOIN pack_animals pa ON pa.Id = d.Genus_id;
+
 11. Создать новую таблицу “молодые животные” в которую попадут все животные старше 1 года, но младше 3 лет и в отдельном столбце с точностью до месяца подсчитать возраст животных в новой таблице.
 12. Объединить все таблицы в одну, при этом сохраняя поля, указывающие на прошлую принадлежность к старым таблицам.
 13. Создать класс с Инкапсуляцией методов и наследованием по диаграмме.
