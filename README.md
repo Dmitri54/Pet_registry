@@ -32,11 +32,12 @@
 ![Task 6](https://github.com/Dmitri54/Pet_registry/blob/main/Screen_shots/Pet_registry06.jpg)
 
 7. В подключенном MySQL репозитории создать базу данных “Друзья человека”.
-
+``` sql
 CREATE DATABASE Human_friends;
+```
 
 8. Создать таблицы с иерархией из диаграммы в БД.
-
+``` sql
 CREATE SCHEMA `Human_friends` ;
 USE Human_friends;
 
@@ -75,9 +76,10 @@ INSERT INTO pack_animals (Genus_name, Class_id)
 VALUES ('Лошади', 1),
 ('Верблюды', 1),
 ('Ослы', 1);
+```
 
 9. Заполнить низкоуровневые таблицы именами(животных), командами которые они выполняют и датами рождения.
-
+``` sql
 CREATE TABLE cats 
 (
 	Id INT AUTO_INCREMENT PRIMARY KEY,
@@ -172,9 +174,10 @@ VALUES ('Жетем', '2020-01-11', 'КХХ', 3),
 ('Лила', '2015-07-03', 'ГИТ!, КАШ!', 3),
 ('Хлоя', '2018-12-02', 'ДУРР!, ЦОК-ЦОК, ХАП-ХАП-ХАП', 3),
 ('Омлет', '2021-12-08', 'ДУРР!, ГИТ!, КАШ!', 3);
+```
 
 10. Удалив из таблицы верблюдов, т.к. верблюдов решили перевезти в другой питомник на зимовку.Объединить таблицы лошади, и ослы в одну таблицу.
-
+``` sql
 SELECT c.Name, c.Birthday, c.Commands, ha.Genus_name, ya.Age_in_month
 FROM cats c
 LEFT JOIN yang_animals ya ON ya.Name = c.Name
@@ -199,6 +202,7 @@ SELECT d.Name, d.Birthday, d.Commands, pa.Genus_name, ya.Age_in_month
 FROM donkeys d
 LEFT JOIN yang_animals ya ON ya.Name = d.Name
 LEFT JOIN pack_animals pa ON pa.Id = d.Genus_id;
+```
 
 11. Создать новую таблицу “молодые животные” в которую попадут все животные старше 1 года, но младше 3 лет и в отдельном столбце с точностью до месяца подсчитать возраст животных в новой таблице.
 12. Объединить все таблицы в одну, при этом сохраняя поля, указывающие на прошлую принадлежность к старым таблицам.
