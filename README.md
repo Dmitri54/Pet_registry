@@ -178,6 +178,31 @@ VALUES ('Жетем', '2020-01-11', 'КХХ', 3),
 
 10. Удалив из таблицы верблюдов, т.к. верблюдов решили перевезти в другой питомник на зимовку.Объединить таблицы лошади, и ослы в одну таблицу.
 ``` sql
+SET SQL_SAFE_UPDATES = 0;
+DELETE FROM camels;
+
+SELECT Name, Birthday, Commands FROM horses
+UNION SELECT Name, Birthday, Commands FROM donkeys;
+```
+
+11. Создать новую таблицу “молодые животные” в которую попадут все животные старше 1 года, но младше 3 лет и в отдельном столбце с точностью до месяца подсчитать возраст животных в новой таблице.
+``` sql
+CREATE TEMPORARY TABLE animals AS
+SELECT*, 'Кошки' AS genus FROM cats
+UNION SELECT*, 'Собаки' AS genus FROM dogs
+UNION SELECT*, 'Хомяки' AS genus FROM hamsters
+UNION SELECT*, 'Лошади' AS genus FROM horses
+UNION SELECT*, 'Ослы' AS genus FROM donkeys;
+
+CREATE TABLE yang_animals AS
+SELECT Name, Birthday, Commands, genus, TIMESTAMPDIFF(MONTH, Birthday, CURDATE()) AS Age_in_month
+FROM animals WHERE Birthday BETWEEN ADDDATE(CURDATE(), INTERVAL - 3 YEAR) AND ADDDATE(CURDATE(), INTERVAL - 1 YEAR);
+
+SELECT* FROM yang_animals;
+```
+
+12. Объединить все таблицы в одну, при этом сохраняя поля, указывающие на прошлую принадлежность к старым таблицам.
+``` sql
 SELECT c.Name, c.Birthday, c.Commands, ha.Genus_name, ya.Age_in_month
 FROM cats c
 LEFT JOIN yang_animals ya ON ya.Name = c.Name
@@ -204,8 +229,6 @@ LEFT JOIN yang_animals ya ON ya.Name = d.Name
 LEFT JOIN pack_animals pa ON pa.Id = d.Genus_id;
 ```
 
-11. Создать новую таблицу “молодые животные” в которую попадут все животные старше 1 года, но младше 3 лет и в отдельном столбце с точностью до месяца подсчитать возраст животных в новой таблице.
-12. Объединить все таблицы в одну, при этом сохраняя поля, указывающие на прошлую принадлежность к старым таблицам.
 13. Создать класс с Инкапсуляцией методов и наследованием по диаграмме.
 14. Написать программу, имитирующую работу реестра домашних животных. 
 В программе должен быть реализован следующий функционал:
